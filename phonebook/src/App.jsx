@@ -4,6 +4,7 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import { useEffect } from "react";
 import services from "./services/personservices";
+import SuccessBanner from "./components/SuccessBanner";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [filteredList, setFilteredList] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleFilter = (event) => {
     const filterPerson = event.target.value;
@@ -79,9 +81,18 @@ const App = () => {
       }
       return;
     } else {
-      services
-        .create(personObject)
-        .then((response) => setPersons(persons.concat(response.data)));
+      const newContact = {
+        id: crypto.randomUUID(),
+        name: newName,
+        number: newNumber,
+      };
+
+      services.create(newContact).then((response) => {
+        return setPersons(persons.concat(response.data));
+      });
+
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), "3000");
     }
   };
 
@@ -97,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessBanner show={showSuccess} />
       <Filter handleFilter={handleFilter} />
       <h3>Add a new</h3>
 

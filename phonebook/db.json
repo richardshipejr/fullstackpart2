@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": "2"
@@ -24,11 +19,6 @@
       "name": "Richard S",
       "number": "39",
       "id": "5"
-    },
-    {
-      "id": "2291",
-      "name": "Nestor Doesn't Study",
-      "number": "4876178"
     }
   ]
 }
