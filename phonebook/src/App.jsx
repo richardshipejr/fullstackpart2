@@ -71,13 +71,7 @@ const App = () => {
         const changedContact = { ...preExistingContact, number: newNumber };
         services
           .update(preExistingContact.id, changedContact)
-          .then((response) =>
-            setPersons(
-              persons.map((person) =>
-                person.id !== preExistingContact.id ? person : response.data
-              )
-            )
-          );
+          .then((response) => setPersons(response.data));
       }
       return;
     } else {
@@ -88,7 +82,7 @@ const App = () => {
       };
 
       services.create(newContact).then((response) => {
-        return setPersons(persons.concat(response.data));
+        return setPersons(response.data);
       });
 
       setShowSuccess(true);
