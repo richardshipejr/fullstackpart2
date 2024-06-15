@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons";
+// const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "/api/contacts";
 
 const getPersons = () => {
   const request = axios.get(baseUrl);
@@ -8,7 +9,7 @@ const getPersons = () => {
 };
 
 const create = (newContact) => {
-  const request = axios.post(baseUrl, newContact);
+  const request = axios.post(`${baseUrl}`, newContact);
   return request;
 };
 
