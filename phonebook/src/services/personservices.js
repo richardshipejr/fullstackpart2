@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = process.env.BASE_URL || "http://localhost:3001/persons";
+const baseUrl = "http://localhost:3001/persons";
 
 const getPersons = () => {
   const request = axios.get(baseUrl);
@@ -12,8 +12,8 @@ const create = (newContact) => {
   return request;
 };
 
-const update = (id, newContact) => {
-  const request = axios.put(`${baseUrl}/persons/${id}`, newContact);
+const update = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
   return request;
 };
 
@@ -22,15 +22,9 @@ const deleteContact = (id) => {
   return request;
 };
 
-const updateContact = (id) => {
-  const request = axios.put(`${baseUrl}/${id}`);
-  return request;
-};
-
 export default {
   getPersons,
   create,
   update,
   deleteContact,
-  updateContact,
 };

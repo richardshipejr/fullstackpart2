@@ -23,6 +23,9 @@ const App = () => {
   };
 
   useEffect(() => {
+    // axios.get("http://localhost:3001/persons").then((response) => {
+    //   setPersons(response.data);
+    // });
     services.getPersons().then((response) => {
       setPersons(response.data);
     });
@@ -54,15 +57,26 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    };
-    const personExists = persons.some(
-      (person) => person.name.toLowerCase() === personObject.name.toLowerCase()
+
+    const contactExists = persons.some(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
-    if (personExists) {
-      alert(`${personObject.name} is already added to the phonebook`);
+    if (contactExists) {
+      if (window.confirm("Do you want to update this persons number")) {
+        const preExistingContact = persons.find(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        const changedContact = { ...preExistingContact, number: newNumber };
+        services
+          .update(preExistingContact.id, changedContact)
+          .then((response) =>
+            setPersons(
+              persons.map((person) =>
+                person.id !== preExistingContact.id ? person : response.data
+              )
+            )
+          );
+      }
       return;
     } else {
       services
