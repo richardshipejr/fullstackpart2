@@ -16,7 +16,7 @@ const Persons = ({ persons, showAll, filteredList, handleDelete }) => {
             </div>
           ))
         : filteredList.map((person) => (
-            <div key={person.name}>
+            <div key={person.id}>
               <p>
                 {person.name} {person.number}{" "}
                 <Button
