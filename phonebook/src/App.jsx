@@ -65,42 +65,65 @@ const App = () => {
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
 
-    // if (contactExists) {
-    //   if (window.confirm("Do you want to update this persons number")) {
-    //     const preExistingContact = persons.find(
-    //       (person) => person.name.toLowerCase() === newName.toLowerCase()
-    //     );
-    //     const changedContact = { ...preExistingContact, number: newNumber };
-    //     services
-    //       .update(preExistingContact.id, changedContact)
-    //       .then((response) => setPersons(response.data));
-    //   }
-    //   return;
-    // } else {
-    //   const newContact = {
-    //     // id: crypto.randomUUID(),
-    //     name: newName,
-    //     number: newNumber,
-    //   };
+    if (contactExists) {
+      if (window.confirm("Do you want to update this persons number")) {
+        const preExistingContact = persons.find(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        const changedContact = { ...preExistingContact, number: newNumber };
+        console.log(changedContact);
+        console.log(preExistingContact);
+        services
+          .update(preExistingContact.id, changedContact)
+          .then(
+            (updatedContact) =>
+              setPersons(
+                persons.map((contact) =>
+                  contact.id === updatedContact.data.id
+                    ? updatedContact.data
+                    : contact
+                )
+              )
+            // setPersons(
+            //   persons.map((contact) =>
+            //     contact.id === updatedContact.data.id
+            //       ? { ...contact, ...updatedContact.data.number }
+            //       : contact
+            //   )
+            // )
+          )
+          .catch((error) => {
+            console.error("Failed to update contact", error);
+          });
+      }
+      return;
+    } else {
+      const newContact = {
+        name: newName,
+        number: newNumber,
+      };
 
-    //   services.create(newContact).then((response) => {
-    //     return setPersons(response.data);
-    //   });
+      services.create(newContact).then((returnedContact) => {
+        console.log(returnedContact.data);
+        setPersons(persons.concat(returnedContact.data));
+        setNewName("");
+        setNewNumber("");
+      });
 
-    //   setShowSuccess(true);
-    //   setTimeout(() => setShowSuccess(false), "3000");
-    // }
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), "3000");
+    }
 
-    const newContact = {
-      name: newName,
-      number: newNumber,
-    };
-    services.create(newContact).then((returnedContact) => {
-      console.log(returnedContact.data);
-      setPersons(persons.concat(returnedContact.data));
-      setNewName("");
-      setNewNumber("");
-    });
+    // const newContact = {
+    //   name: newName,
+    //   number: newNumber,
+    // };
+    // services.create(newContact).then((returnedContact) => {
+    //   console.log(returnedContact.data);
+    //   setPersons(persons.concat(returnedContact.data));
+    //   setNewName("");
+    //   setNewNumber("");
+    // });
   };
 
   const handlers = {
